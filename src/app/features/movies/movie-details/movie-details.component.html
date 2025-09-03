@@ -1,0 +1,50 @@
+<section class="container" *ngIf="movie; else notFound">
+  <a class="link" routerLink="≥/">← Nazad na listu</a>
+
+  <h1>{{ movie.title }}</h1>
+  <p class="muted">{{ movie.genre.join(', ') }} · {{ movie.durationMin }} min</p>
+  <p style="margin-bottom:8px;">{{ movie.description }}</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <p><strong>Režiser:</strong> {{ movie.director }}</p>
+    <p><strong>Glumci:</strong> {{ movie.actors.join(', ') }}</p>
+    <p><strong>Datum izlaska:</strong> {{ movie.releaseDate | date:'dd.MM.yyyy' }}</p>
+  </div>
+
+  <h3>Projekcije</h3>
+  <ul class="list card" style="padding:12px;">
+    <li *ngFor="let p of movie.projections; index as i" class="row" style="border:0;">
+      <div>{{ p.dateTime | date:'dd.MM.yyyy HH:mm' }} —
+        {{ p.price | currency:'RSD':'symbol-narrow':'1.0-0' }}</div>
+      <button class="btn btn-primary btn-sm" (click)="reserve(i)">Rezerviši</button>
+    </li>
+  </ul>
+
+  <h3>Ocena gledalaca: {{ averageRating() || 'nema' }}</h3>
+
+  <h3>Recenzije</h3>
+  <div *ngIf="movie.reviews.length; else noRev">
+    <article *ngFor="let r of movie.reviews" class="card" style="padding:12px; margin-bottom:10px;">
+      <div class="muted" style="margin-bottom:6px;">
+        <strong style="color:#fff">{{ r.userName }}</strong> · ★ {{ r.rating }}
+        · {{ r.createdAt | date:'dd.MM.yyyy HH:mm' }}
+      </div>
+      <p style="margin:0;">{{ r.comment }}</p>
+    </article>
+  </div>
+  <ng-template #noRev><div class="muted">Još nema recenzija.</div></ng-template>
+
+  <h3>Dodaj recenziju</h3>
+  <form (ngSubmit)="addReview()" class="card" style="padding:12px; display:grid; gap:8px; max-width:520px;">
+    <input [(ngModel)]="userName" name="userName" placeholder="Ime" />
+    <select [(ngModel)]="rating" name="rating">
+      <option *ngFor="let n of [5,4,3,2,1]" [ngValue]="n">★ {{ n }}</option>
+    </select>
+    <textarea [(ngModel)]="comment" name="comment" placeholder="Komentar"></textarea>
+    <button class="btn btn-primary" type="submit">Sačuvaj</button>
+  </form>
+</section>
+
+<ng-template #notFound>
+  <section class="container">Film nije pronađen.</section>
+</ng-template>

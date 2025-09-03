@@ -1,0 +1,188 @@
+/* ====== Tema i reset ====== */
+:root{
+  --bg: #0f172a;        /* slate-900 */
+  --panel: #111827;     /* gray-900 */
+  --card: #111827;
+  --muted: #9ca3af;     /* gray-400 */
+  --text: #e5e7eb;      /* gray-200 */
+  --primary: #22c55e;   /* green-500 */
+  --primary-600: #16a34a;
+  --ring: rgba(34,197,94,.35);
+  --border: #1f2937;    /* gray-800 */
+  --danger: #ef4444;
+}
+*{ box-sizing: border-box; }
+html, body { height: 100%; }
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 800px at 20% -10%, #1e293b 0%, transparent 60%), var(--bg);
+  color: var(--text);
+}
+
+/* ====== Layout ====== */
+.container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+/* ====== Header/Nav ====== */
+.nav{
+  display:flex; gap:16px; align-items:center; padding:14px 0;
+  border-bottom:1px solid var(--border);
+}
+.nav a, .nav button{
+  color: var(--text); text-decoration:none; font-weight:600;
+  padding:8px 12px; border-radius: 10px; border: 1px solid transparent; background: transparent;
+}
+.nav a:hover{ background: #0b1220; border-color: var(--border); }
+.nav a.active{ background: #0b1220; border-color: var(--border); }
+.nav button{ cursor:pointer; }
+
+/* ====== Cards & grids ====== */
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); // 👈 fleksibilno
+}
+
+.card{
+  background: linear-gradient(180deg, #0b1220 0%, var(--card) 100%);
+  border:1px solid var(--border);
+  border-radius: 16px; padding:16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.card:hover{ transform: translateY(-2px); border-color:#2a364a; }
+
+/* ====== Tekst ====== */
+h1{ font-size: 1.8rem; margin: 6px 0 16px; }
+h2{ font-size: 1.1rem; margin: 0 0 8px; }
+.muted{ color: var(--muted); }
+
+/* ====== Forme ====== */
+input, select, textarea, button{
+  font: inherit; color: var(--text);
+}
+input, select, textarea{
+  width:100%; padding:10px 12px; border-radius:12px;
+  border:1px solid var(--border); background:#0b1220;
+  outline: none; transition: border-color .1s, box-shadow .1s;
+}
+input:focus, select:focus, textarea:focus{
+  border-color: var(--primary); box-shadow: 0 0 0 4px var(--ring);
+}
+textarea{ min-height: 96px; resize: vertical; }
+
+.filters{
+  display:grid; gap:10px; margin: 14px 0 18px;
+  grid-template-columns: repeat(6, 1fr);
+}
+@media (max-width: 900px){ .filters{ grid-template-columns: 1fr 1fr; } }
+
+/* ====== Dugmad ====== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 14px; border-radius:12px; border:1px solid transparent;
+  font-weight:600; cursor:pointer; transition: transform .04s ease, background .12s ease, border-color .12s ease;
+}
+.btn:active{ transform: translateY(1px); }
+.btn-primary{ background: var(--primary); color:#07130b; }
+.btn-primary:hover{ background: var(--primary-600); }
+.btn-ghost{ background: transparent; border-color: var(--border); }
+.btn-ghost:hover{ background: #0b1220; }
+.btn-danger{ background: var(--danger); color: #fff; }
+.btn-sm{ padding:8px 10px; border-radius:10px; }
+
+/* ====== Lists & rows ====== */
+.list{ list-style:none; margin:0; padding:0; }
+.row{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 0; border-bottom:1px solid var(--border);
+}
+.total{ text-align:right; margin-top:12px; font-weight:700; }
+
+/* ====== Link kao dugme u karticama ====== */
+a.link{ color: var(--text); text-decoration:none; }
+a.link:hover{ text-decoration: underline; }
+/* Sticky filteri */
+.sticky{
+  position: sticky; top: 0; z-index: 5;
+  backdrop-filter: blur(8px);
+  background: linear-gradient(to bottom, rgba(15,23,42,.85), rgba(15,23,42,.6));
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 12px;
+  margin-bottom: 12px;
+}
+
+/* Filter akcije & sort */
+.filter-actions{
+  display:flex; gap:8px; align-items:center; justify-content:flex-start;
+}
+.sort{
+  display:flex; gap:8px; align-items:center; grid-column: span 2;
+}
+@media (max-width: 900px){ .sort{ grid-column: 1 / -1; } }
+
+/* Chips */
+.chips{ display:flex; gap:8px; align-items:center; margin: 8px 0 12px; flex-wrap: wrap; }
+.chip{
+  background:#0b1220; border:1px solid var(--border); border-radius: 999px;
+  padding:6px 10px; display:inline-flex; gap:6px; align-items:center;
+}
+.chip-x{
+  background:transparent; border:0; color:var(--muted); cursor:pointer; padding:0 2px; font-size: 0.95em;
+}
+.chip-x:hover{ color: var(--text); }
+
+/* Badges za žanrove */
+.badges{ display:flex; gap:6px; flex-wrap: wrap; margin: 6px 0; }
+.badge{
+  background: #0b1220; border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 4px 8px; border-radius: 999px; font-size: .85rem;
+}
+
+/* Empty state */
+.empty{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+
+/* Sitna korekcija grid rasporeda filtera */
+.filters{
+  grid-template-columns: repeat(6, 1fr);
+}
+.filters .filter-actions{ grid-column: span 2; }
+@media (max-width: 900px){
+  .filters{ grid-template-columns: 1fr 1fr; }
+  .filters .filter-actions{ grid-column: 1 / -1; }
+}
+.movie-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+/* === ŠIRA STRANICA === */
+.container{
+  /* širina za laptop/desktops */
+  max-width: 1280px;   /* probaj 1360 ili 1440 ako želiš još šire */
+}
+
+/* još šire na velikim monitorima */
+@media (min-width: 1536px){
+  .container{ max-width: 1440px; }
+}
+
+/* === GRID: više kartica u redu === */
+.grid{
+  display: grid;
+  gap: 16px;
+  /* auto-fit popunjava ceo red; min širina kartice 220px → 4-6 kartica na desktopu */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+input, select, textarea{
+  width:100%; padding:12px 14px; border-radius:12px;
+  border:1px solid var(--border); background:#0b1220; color:var(--text);
+}
+input::placeholder{ color:#6b7280; }

@@ -1,0 +1,10 @@
+<section class="container">
+  <h1>Prijava</h1>
+  <form (ngSubmit)="submit()" class="form">
+    <input [(ngModel)]="email" name="email" type="email" placeholder="Email" required />
+    <input [(ngModel)]="password" name="password" type="password" placeholder="Lozinka" required />
+    <button type="submit">Uloguj se</button>
+    <div class="err" *ngIf="error">{{ error }}</div>
+  </form>
+  <p class="muted">Nemaš nalog? <a routerLink="/register">Registruj se</a></p>
+</section>

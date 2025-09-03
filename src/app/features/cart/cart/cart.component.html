@@ -1,0 +1,59 @@
+<section class="container">
+  <h1>Korpa rezervacija</h1>
+
+  <div *ngIf="!items.length" class="muted">Korpa je prazna.</div>
+
+  <ul class="list" *ngIf="items.length">
+    <li *ngFor="let it of items" class="row">
+      <div>
+        <strong>{{ it.movie.title }}</strong>
+        <div class="muted">
+          {{ it.projection.dateTime | date:'dd.MM.yyyy HH:mm' }} ·
+          {{ it.projection.price | currency:'RSD':'symbol-narrow':'1.0-0' }}
+        </div>
+
+        <!-- Status -->
+        <div class="muted" style="margin-top:8px;">
+          Status:
+          <select [(ngModel)]="it.status" (ngModelChange)="cart.setStatus(it.id, $event)" style="width:auto;">
+            <option [ngValue]="ReservationStatus.Rezervisano">rezervisano</option>
+            <option [ngValue]="ReservationStatus.Gledano">gledano</option>
+            <option [ngValue]="ReservationStatus.Otkazano">otkazano</option>
+          </select>
+        </div>
+
+        <!-- Izmena termina samo ako je rezervisano -->
+        <div *ngIf="it.status === ReservationStatus.Rezervisano" style="margin-top:8px;">
+          Izmeni termin:
+          <select [ngModel]="it.projection" (ngModelChange)="cart.setProjection(it.id, $event)" style="width:auto;">
+            <option *ngFor="let p of it.movie.projections" [ngValue]="p">
+              {{ p.dateTime | date:'dd.MM.yyyy HH:mm' }} —
+              {{ p.price | currency:'RSD':'symbol-narrow':'1.0-0' }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Ocena samo ako je gledano -->
+        <div *ngIf="it.status === ReservationStatus.Gledano" style="margin-top:8px;">
+          Ocena:
+          <select [ngModel]="it.rating ?? 5"
+                  (ngModelChange)="onRate(it.id, it.movie.id, +$event)"
+                  style="width:auto;">
+            <option *ngFor="let n of [5,4,3,2,1]" [ngValue]="n">★ {{ n }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Brisanje dozvoljeno samo za gledano -->
+      <button class="btn btn-danger btn-sm"
+              [disabled]="it.status !== ReservationStatus.Gledano"
+              (click)="remove(it.id)">
+        Ukloni
+      </button>
+    </li>
+  </ul>
+
+  <div class="total" *ngIf="items.length">
+    Ukupno: <strong>{{ total() | currency:'RSD':'symbol-narrow':'1.0-0' }}</strong>
+  </div>
+</section>

@@ -1,0 +1,7 @@
+.container { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+.muted { color: #666; }
+ul { padding-left: 18px; }
+.review { border-top: 1px solid #eee; padding: 12px 0; }
+.review .head { font-size: 0.95rem; margin-bottom: 4px; }
+.review-form { display: grid; gap: 8px; max-width: 480px; }
+.review-form input, .review-form select, .review-form textarea, .review-form button { padding: 8px; }

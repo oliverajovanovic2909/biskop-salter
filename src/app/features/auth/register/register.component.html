@@ -1,0 +1,31 @@
+<section class="container">
+  <h1>Registracija</h1>
+
+  <form class="form-card" (ngSubmit)="submit()">
+    <div class="grid2">
+      <input [(ngModel)]="user.firstName" name="firstName" placeholder="Ime" />
+      <input [(ngModel)]="user.lastName"  name="lastName"  placeholder="Prezime" />
+      <input [(ngModel)]="user.email"     name="email"     placeholder="Email" type="email" />
+      <input [(ngModel)]="user.phone"     name="phone"     placeholder="Telefon" />
+      <input [(ngModel)]="user.address"   name="address"   placeholder="Adresa" />
+      <input [(ngModel)]="user.password"  name="password"  placeholder="Lozinka" type="password" />
+    </div>
+
+    <div class="section-title">Omiljeni žanrovi</div>
+    <div class="check-grid">
+      <label *ngFor="let g of genres">
+        <input type="checkbox"
+               [checked]="user.favoriteGenres.includes(g)"
+               (change)="toggleGenre(g)" />
+        <span>{{ g }}</span>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit">Kreiraj nalog</button>
+      <a class="btn btn-ghost" routerLink="/login">Uloguj se</a>
+    </div>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+  </form>
+</section>

@@ -1,0 +1,16 @@
+<header class="container">
+  <nav class="nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Projekcije</a>
+    <a routerLink="/cart" routerLinkActive="active">Korpa</a>
+    <span style="flex:1"></span>
+
+    <ng-container *ngIf="auth.isLoggedIn(); else authLinks">
+      <a routerLink="/profile" routerLinkActive="active">Profil</a>
+      <button (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-template #authLinks>
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+      <a routerLink="/register" routerLinkActive="active">Register</a>
+    </ng-template>
+  </nav>
+</header>

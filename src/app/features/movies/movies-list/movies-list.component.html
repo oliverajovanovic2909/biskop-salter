@@ -1,0 +1,80 @@
+<section class="container">
+  <h1>Pretraga projekcija</h1>
+
+  <!-- Sticky filter bar -->
+  <div class="filters sticky">
+    <input [(ngModel)]="q" name="q" placeholder="Naziv ili opis" />
+    <input [(ngModel)]="director" name="director" placeholder="Režiser" />
+    <input [(ngModel)]="actor" name="actor" placeholder="Glumac/Glumica" />
+    <select [(ngModel)]="genre" name="genre">
+      <option [ngValue]="undefined">Žanr (svi)</option>
+      <option *ngFor="let g of genres" [ngValue]="g">{{ g }}</option>
+    </select>
+    <input type="number" [(ngModel)]="maxPrice" name="maxPrice" placeholder="Max cena" />
+
+    <!-- Akcije uz filtere -->
+    <div class="filter-actions">
+      <button class="btn btn-primary" type="button" (click)="search()">Pretraži</button>
+      <button class="btn btn-ghost" type="button" (click)="reset()">Reset</button>
+    </div>
+
+    <!-- Sortiranje -->
+    <div class="sort">
+      <label class="muted" for="sortSel">Sortiraj:</label>
+      <select id="sortSel" [(ngModel)]="sortBy" (ngModelChange)="search()">
+        <option [ngValue]="'soonest'">Najskoriji termin</option>
+        <option [ngValue]="'priceAsc'">Cena (najniža prvo)</option>
+        <option [ngValue]="'priceDesc'">Cena (najviša prvo)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Active filter chips + count -->
+  <div class="chips" *ngIf="activeFilters().length">
+    <span class="chip" *ngFor="let f of activeFilters()">
+      {{ f.label }} <button class="chip-x" (click)="clearFilter(f.key)" aria-label="Ukloni filter">✕</button>
+    </span>
+    <span class="muted" style="margin-left:auto;">Rezultata: {{ movies.length }}</span>
+  </div>
+
+  <!-- Empty state -->
+  <div class="card empty" *ngIf="!movies.length">
+    <div>
+      <h2>Nema rezultata</h2>
+      <p class="muted">Pokušaj šire kriterijume ili resetuj filtere.</p>
+    </div>
+    <button class="btn btn-primary" (click)="reset()">Resetuj filtere</button>
+  </div>
+
+<!-- Rezultati -->
+<div class="grid" *ngIf="movies.length">
+  <article class="card" *ngFor="let m of movies">
+    <!-- 👇 NOVO: slika postera -->
+    <img *ngIf="m.imageUrl" [src]="m.imageUrl" [alt]="m.title" class="movie-img" />
+
+    <h2><a class="link" [routerLink]="['/movie', m.id]">{{ m.title }}</a></h2>
+
+    <div class="badges" aria-label="Žanrovi">
+      <span class="badge" *ngFor="let g of m.genre">{{ g }}</span>
+    </div>
+
+    <p class="muted" style="margin:6px 0;">Trajanje: {{ m.durationMin }} min</p>
+    <p>{{ m.description }}</p>
+    <p>Režiser: <strong>{{ m.director }}</strong></p>
+    <p>Glumci: {{ m.actors.join(', ') }}</p>
+    <p>Datum izlaska: {{ m.releaseDate | date:'dd.MM.yyyy' }}</p>
+
+    <div class="projections" style="display:flex; gap:8px; align-items:center; margin:12px 0;">
+      <label class="muted">Termin:</label>
+      <select #projIdx>
+        <option *ngFor="let p of m.projections; index as i" [value]="i">
+          {{ p.dateTime | date:'dd.MM.yyyy HH:mm' }} —
+          {{ p.price | currency:'RSD':'symbol-narrow':'1.0-0' }}
+        </option>
+      </select>
+      <button class="btn btn-primary btn-sm" (click)="reserve(m, +projIdx.value)">Rezerviši</button>
+    </div>
+  </article>
+</div>
+
+</section>

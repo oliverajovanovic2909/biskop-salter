@@ -1,0 +1,36 @@
+<section class="container" *ngIf="auth.current as user; else needLogin">
+  <h1>Moj profil</h1>
+
+  <form class="form-card" (ngSubmit)="$event.preventDefault()">
+    <div class="grid2">
+      <input [(ngModel)]="user.firstName" name="firstName" placeholder="Ime"
+             (ngModelChange)="auth.updateProfile({firstName: $event})" />
+      <input [(ngModel)]="user.lastName"  name="lastName"  placeholder="Prezime"
+             (ngModelChange)="auth.updateProfile({lastName: $event})" />
+      <input [(ngModel)]="user.email"     name="email"     placeholder="Email" disabled />
+      <input [(ngModel)]="user.phone"     name="phone"     placeholder="Telefon"
+             (ngModelChange)="auth.updateProfile({phone: $event})" />
+      <input [(ngModel)]="user.address"   name="address"   placeholder="Adresa"
+             (ngModelChange)="auth.updateProfile({address: $event})" />
+    </div>
+
+    <div class="section-title">Omiljeni žanrovi</div>
+    <div class="check-grid">
+      <label *ngFor="let g of genres">
+        <input type="checkbox"
+               [checked]="user.favoriteGenres.includes(g)"
+               (change)="toggleGenre(g)" />
+        <span>{{ g }}</span>
+      </label>
+    </div>
+  </form>
+</section>
+
+<ng-template #needLogin>
+  <section class="container">
+    <div class="form-card">
+      <h2 class="muted">Niste prijavljeni.</h2>
+      <a class="btn btn-primary" routerLink="/login">Prijavite se</a>
+    </div>
+  </section>
+</ng-template>
